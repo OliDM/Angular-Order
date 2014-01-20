@@ -23,8 +23,9 @@ the -g option will make these modules globally available.
 Getting the website running
 ===========================
 open a terminal on the repository directory and run
-* 1-'bower install' 
-* 2- 'grunt serve' 
+* 1-'bower install'
+* 2- 'npm install'
+* 3- 'grunt serve' 
 
 Testing
 =======
