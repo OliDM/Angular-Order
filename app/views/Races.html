@@ -1,0 +1,95 @@
+<div>
+	<div id="msg" class="alert animated-msg alert-info" ng-show="status">{{status}}</div>
+	<div class="container">
+		<!-- Button trigger modal -->
+
+		<div id="modalwindows">
+			<!-- Create Modal -->
+			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h4 class="modal-title" id="myModalLabel">Add a new race</h4>
+						</div>
+						<div class="modal-body">
+							<div class="span3">
+
+								<br />
+								<input data-ng-model="newRace.name" class="form-control" type="text" placeholder="race Name">
+								<br>
+								<select name="raceimage" class="form-control" id="raceimage">
+									<option value="1">todo</option>
+									<option value="2">todo 2</option>
+									<option value="3">todo 3</option>
+								</select>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-primary" data-ng-disabled="!newRace.name" data-dismiss="modal" data-ng-click="insertRace()">Save</button>
+						</div>
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
+
+			<!-- Edit Modal -->
+			<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h4 class="modal-title" id="myModalLabel">Edit race</h4>
+						</div>
+						<div class="modal-body">
+							<div class="span3">
+
+								<br />
+								<input data-ng-model="currRace.name" class="form-control" type="text" placeholder="race Name">
+								<br>
+								<select name="raceimage" class="form-control" id="raceimage">
+									<option value="1">todo</option>
+									<option value="2">todo 2</option>
+									<option value="3">todo 3</option>
+								</select>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-primary" data-ng-disabled="!currRace.name" data-dismiss="modal" data-ng-click="updateRace(currRace.id)">Save changes</button>
+						</div>
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
+		</div>
+		<div class="filters">
+			<button class="btn btn-primary btn-lg pull-right" data-toggle="modal" data-target="#myModal">
+				Create a Race
+			</button>
+			<label for="srcbox">Search:</label>
+			<input id='srcbox' type="text" class="form-control" ng-model="search">
+		</div>
+		<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">List of all the known lineages on this land</div>
+		<table class='table  table-bordered table-hover'>
+			<thead>
+				<tr>
+					<td><label>#</label></td>
+					<td><label>Name</label></td>
+					<td><label>Action</label></td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="item in races |filter:search">
+					<td>{{item.id}}</td>
+					<td>{{item.name}}</td>
+					<td>
+						<button type="button" data-toggle="modal" ng-click="getRace(item.id)" data-target="#editModal" class="btn btn-primary">update</button> 
+						<button type="button" ng-click="deleteRace(item.id)" class="btn btn-danger">Delete</button></td>
+					</tr>
+				</tbody>	
+			</table>
+		</div>
+		</div>
+	</div>

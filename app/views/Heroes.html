@@ -1,0 +1,113 @@
+<div class="heroes view">
+	<div id="msg" class="alert animated-msg alert-info" ng-show="status">{{status}}</div>
+	<div class="container">		
+		<div id="modalwindows">
+			<!--  Add Modal -->
+			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h4 class="modal-title" id="myModalLabel">Add a new Hero</h4>
+						</div>
+						<div class="modal-body">
+							<div class="span3">
+
+								<br />
+								<label for="Heroname">Hero Name</label>
+								<input id="Heroname" data-ng-model="newHero.name" class="form-control" type="text" placeholder="Name">
+								<label for="selrace">Select a Race:</label>
+								<div ng-controller="RacesController">
+									<select class="form-control" id="selrace" ng-model="newHero.race_id" ng-options="obj.id  as obj.name for obj in races"/>	
+								</div>
+								<label for="seljob">Select a profesion:</label>
+								<div ng-controller="JobsController">
+									<select class="form-control" id="seljob" ng-model="newHero.job_id" ng-options="obj.id  as obj.name for obj in jobs"/>	
+								</div>
+								<label for="selwep">Select a Weapon</label>
+								<div ng-controller="WeaponsController">
+									<select class="form-control" id="selwep" ng-model="newHero.weapon_id" ng-options="obj.id  as obj.name for obj in weapons"/>	
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-primary" data-ng-disabled="!newHero.name" data-dismiss="modal" data-ng-click="insertHero()">Save</button>
+						</div>
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
+
+			<!--  Edit Modal -->
+			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h4 class="modal-title" id="myModalLabel">Add a new Hero</h4>
+						</div>
+						<div class="modal-body">
+							<div class="span3">
+
+								<br />
+								<label for="Heroname">Hero Name</label>
+								<input id="Heroname" data-ng-model="newHero.name" class="form-control" type="text" placeholder="Name">
+								<label for="selrace">Select a Race:</label>
+								<div ng-controller="RacesController">
+									<select class="form-control" id="selrace" ng-model="newHero.race_id" ng-options="obj.id  as obj.name for obj in races"/>	
+								</div>
+								<label for="seljob">Select a profesion:</label>
+								<div ng-controller="JobsController">
+									<select class="form-control" id="seljob" ng-model="newHero.job_id" ng-options="obj.id  as obj.name for obj in jobs"/>	
+								</div>
+								<label for="selwep">Select a Weapon</label>
+								<div ng-controller="WeaponsController">
+									<select class="form-control" id="selwep" ng-model="newHero.weapon_id" ng-options="obj.id  as obj.name for obj in weapons"/>	
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-primary" data-ng-disabled="!newHero.name" data-dismiss="modal" data-ng-click="insertHero()">Save</button>
+						</div>
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
+		</div>
+		<div class="filters">
+			<button class="btn btn-primary btn-lg pull-right"  data-toggle="modal" data-target="#myModal">
+				Create a Hero
+			</button>
+			<label for="srcbox">Search:</label>
+			<input id='srcbox' type="text" class="form-control" ng-model="search">
+		</div>
+		<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">List of current active heroes</div>
+		<table class='table  table-bordered table-hover'>
+			<thead>
+				<tr>
+					<td><label>#</label></td>
+					<td><label>Name</label></td>
+					<td><label>Weapon</label></td>
+					<td><label>Race</label></td>
+					<td><label>job</label></td>
+					<td><label>action</label></td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="item in heroes |filter:search">
+					<td>{{item.id}}</td>
+					<td>{{item.name}}</td>
+					<td>  {{weapons[item.weapon_id].name}}</td>
+					<td> {{races[item.race_id].name}}  </td>
+					<td>  {{jobs[item.job_id].name}}</td>
+					<td>
+						<button type="button" class="btn btn-primary">update</button> 
+						<button type="button" class="btn btn-danger" ng-click='deleteHero(item.id)'>Delete</button></td>
+					</tr>
+				</tbody>	
+			</table>
+		</div>
+		</div>
+	</div>

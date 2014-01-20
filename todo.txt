@@ -1,0 +1,5 @@
+--Paginado
+--Filtros
+--Expander el api
+	-hero skills(muchos a muchos)
+	-imgenes?
