@@ -27,11 +27,6 @@ module.exports = function() {
       'app/scripts/app.js',
       'app/scripts/Factories/Factories.js',
       'app/scripts/controllers/Controllers.js',
-
-      //Test-Specific Code
-      'node_modules/chai/chai.js',
-      'test/lib/chai-should.js',
-      'test/lib/chai-expect.js'
       ]
     }
   };
