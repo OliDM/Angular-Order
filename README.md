@@ -27,6 +27,8 @@ open a terminal on the repository directory and run
 * 2- 'npm install'
 * 3- 'grunt serve' 
 
+  Note: it is reccomended to use along with my fork of the order of the pixel(https://github.com/OliDM/order-of-the-pixel)
+
 Testing
 =======
 
