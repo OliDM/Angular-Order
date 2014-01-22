@@ -8,6 +8,15 @@
     max-width: 730px;
 }
 }
+
+.action-col-fix{
+    width:158px;
+}
+
+.table.table-bordered.table-hover{
+    text-align: center;
+}
+
 /*bootstrap overloads end*/
 .hide{
     display: none !important;
