@@ -22,7 +22,6 @@ app.controller('HeroesController', function ($scope,$timeout, heroesFactory,fade
 		heroesFactory.getHeroes()
 		.success(function (records) {
 			$scope.heroes = records;
- 
 		})
 		.error(function (error) {
 			$scope.status = 'Unable to load hero data: ' + error.message;
@@ -84,18 +83,20 @@ app.controller('HeroesController', function ($scope,$timeout, heroesFactory,fade
 	};
 
 	$scope.updateHero = function (id) {
-		debugger;
 		var hero;
+		debugger;
 		for (var i = 0,y=$scope.heroes.length; i < y; i++) {
 			var currhero = $scope.heroes[i];
+			$scope.updateindex= i;
 			if (currhero.id === id) {
-				hero = currhero;
+				hero = $scope.currHero;
 				break;
 			}
 		}
 
 		heroesFactory.updateHero(hero)
 		.success(function () {
+			$scope.heroes[$scope.updateindex]=$scope.currHero;
 			$scope.status = 'Updated hero! Refreshing hero list.';
 		})
 		.error(function (error) {
@@ -118,7 +119,7 @@ app.controller('JobsController', function($scope,$timeout,jobsFactory,fademessag
 			$scope.jobs = records;
 		//	$scope.status = 'Job list loaded successfully '
 
-		})
+	})
 		.error(function (error) {
 			$scope.status = 'Unable to load jobs data: ' + error.message;
 
