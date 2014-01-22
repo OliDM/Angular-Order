@@ -20,10 +20,7 @@
 								<label for="wepdesc">Description</label>
 								<textarea class="span6 form-control" ng-model="newWeapon.desc" rows="3" placeholder="Tell us all about what this bad boy can do" required></textarea>
 								<br>
-								<label for="weaponlogo">Weapon Logo</label>
-								<input type="file"  accept="image/*" id="weaponlogo">
-								<br>
-								<br>
+
 							</div>
 						</div>
 						<div class="modal-footer">
@@ -53,10 +50,7 @@
 								<label for="wepdesc">Description</label>
 								<textarea class="span6 form-control" ng-model="currWeapon.desc" rows="3" placeholder="Tell us all about what this bad boy can do" required></textarea>
 								<br>
-								<label for="weaponlogo">Weapon Logo</label>
-								<input type="file"  accept="image/*" id="weaponlogo">
-								<br>
-								<br>
+
 							</div>
 						</div>
 						<div class="modal-footer">
@@ -93,7 +87,7 @@
 					<td>{{item.id}}</td>
 					<td>{{item.name}}</td>
 					<td>{{item.desc}}</td>
-					<td><button type="button" ng-click="getWeapon(item.id)" class="btn btn-primary" data-toggle="modal" data-target="#editModal">update</button> <button type="button" ng-click="deleteWeapon(item.id)" class="btn btn-danger">Delete</button></td>
+					<td class="action-col-fix"><button type="button" ng-click="getWeapon(item.id)" class="btn btn-primary" data-toggle="modal" data-target="#editModal">update</button> <button type="button" ng-click="deleteWeapon(item.id)" class="btn btn-danger">Delete</button></td>
 				</tr>
 			</tbody>	
 		</table>

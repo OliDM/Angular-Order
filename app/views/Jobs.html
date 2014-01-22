@@ -2,7 +2,7 @@
 <div>
 	<div class="container">
 		<div id="msg" class="alert animated-msg alert-info" ng-show="status">{{status}}</div>
- 
+		
 		<div id='modalwindows'>
 			<!--Create Modal -->
 			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -18,10 +18,7 @@
 								<br />
 								<label for="Jobname">Job Name</label>
 								<input id="Jobname" data-ng-model="newJob.name" class="form-control" type="text" placeholder="enter Job Name">
-								<label for="Joblogo">Job Logo</label>
-								<input type="file"  accept="image/*" id="Joblogo">
-								<br>
-								<br>
+								
 							</div>
 						</div>
 						<div class="modal-footer">
@@ -46,10 +43,7 @@
 								<br />
 								<label for="editJobname">Job Name</label>
 								<input id="editJobname" data-ng-model="currJob.name" class="form-control" type="text" placeholder="enter Job Name">
-								<label for="Joblogo">Job Logo</label>
-								<input type="file"  accept="image/*" id="Joblogo">
-								<br>
-								<br>
+
 							</div>
 						</div>
 						<div class="modal-footer">
@@ -68,26 +62,26 @@
 
 		</div>
 		<div class="panel panel-default">
- 
-  <div class="panel-heading">List of available profesions</div>
-		<table class='table  table-bordered table-hover'>
-			<thead>
-				<tr>
-					<td><label for=""># </label></td>
-					<td><label for="">Name</label></td>
-					<td><label for="">Action</label></td>
-				</tr>
-			</thead>
-			<tbody>
-				<tr ng-repeat="item in jobs |filter:search">
-					<td>{{item.id}}</td>
-					<td>{{item.name}}</td>
-					<td>
-						<button type="button" data-toggle="modal" ng-click="getJob(item.id)" data-target="#editModal" class="btn btn-primary">update</button> 
-						<button type="button" ng-click="deleteJob(item.id)" class="btn btn-danger">Delete</button></td>
+			
+			<div class="panel-heading">List of available profesions</div>
+			<table class='table  table-bordered table-hover'>
+				<thead>
+					<tr>
+						<td><label for=""># </label></td>
+						<td><label for="">Name</label></td>
+						<td><label for="">Action</label></td>
 					</tr>
-				</tbody>	
-			</table>
+				</thead>
+				<tbody>
+					<tr ng-repeat="item in jobs |filter:search">
+						<td>{{item.id}}</td>
+						<td>{{item.name}}</td>
+						<td>
+							<button type="button" data-toggle="modal" ng-click="getJob(item.id)" data-target="#editModal" class="btn btn-primary">update</button> 
+							<button type="button" ng-click="deleteJob(item.id)" class="btn btn-danger">Delete</button></td>
+						</tr>
+					</tbody>	
+				</table>
+			</div>
 		</div>
-	</div>
 

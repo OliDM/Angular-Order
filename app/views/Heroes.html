@@ -39,36 +39,36 @@
 			</div><!-- /.modal -->
 
 			<!--  Edit Modal -->
-			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-							<h4 class="modal-title" id="myModalLabel">Add a new Hero</h4>
+							<h4 class="modal-title" id="myModalLabel">Update your Hero</h4>
 						</div>
 						<div class="modal-body">
 							<div class="span3">
 
 								<br />
 								<label for="Heroname">Hero Name</label>
-								<input id="Heroname" data-ng-model="newHero.name" class="form-control" type="text" placeholder="Name">
+								<input id="Heroname" data-ng-model="currHero.name" class="form-control" type="text" placeholder="Name">
 								<label for="selrace">Select a Race:</label>
 								<div ng-controller="RacesController">
-									<select class="form-control" id="selrace" ng-model="newHero.race_id" ng-options="obj.id  as obj.name for obj in races"/>	
+									<select class="form-control" id="selrace" ng-model="currHero.race_id" ng-options="obj.id  as obj.name for obj in races"/>	
 								</div>
 								<label for="seljob">Select a profesion:</label>
 								<div ng-controller="JobsController">
-									<select class="form-control" id="seljob" ng-model="newHero.job_id" ng-options="obj.id  as obj.name for obj in jobs"/>	
+									<select class="form-control" id="seljob" ng-model="currHero.job_id" ng-options="obj.id  as obj.name for obj in jobs"/>	
 								</div>
 								<label for="selwep">Select a Weapon</label>
 								<div ng-controller="WeaponsController">
-									<select class="form-control" id="selwep" ng-model="newHero.weapon_id" ng-options="obj.id  as obj.name for obj in weapons"/>	
+									<select class="form-control" id="selwep" ng-model="currHero.weapon_id" ng-options="obj.id  as obj.name for obj in weapons"/>	
 								</div>
 							</div>
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-							<button type="button" class="btn btn-primary" data-ng-disabled="!newHero.name" data-dismiss="modal" data-ng-click="insertHero()">Save</button>
+							<button type="button" class="btn btn-primary" data-ng-disabled="!currHero.name" data-dismiss="modal" data-ng-click="updateHero(currHero.id)">Save</button>
 						</div>
 					</div><!-- /.modal-content -->
 				</div><!-- /.modal-dialog -->
@@ -103,7 +103,7 @@
 					<td> {{races[item.race_id].name}}  </td>
 					<td>  {{jobs[item.job_id].name}}</td>
 					<td>
-						<button type="button" class="btn btn-primary">update</button> 
+						<button type="button" data-toggle="modal" data-target="#editModal" class="btn btn-primary" ng-click="getHero(item.id)">update</button> 
 						<button type="button" class="btn btn-danger" ng-click='deleteHero(item.id)'>Delete</button></td>
 					</tr>
 				</tbody>	
