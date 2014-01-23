@@ -1,3 +1,12 @@
+app.filter('startFrom', function() {
+	return function(input, start) {
+		if(input) {
+            start = +start; //parse to int
+            return input.slice(start);
+        }
+        return [];
+    }
+});
 
 
 app.controller('NavbarController', function ($scope, $location) {
@@ -10,10 +19,10 @@ app.controller('NavbarController', function ($scope, $location) {
 	}
 });
 
-app.controller('HeroesController', function ($scope,$timeout, heroesFactory,fademessage,Heroextras){
+app.controller('HeroesController', function ($scope,$timeout, heroesFactory,fademessage,Heroextras,filterFilter){
 
 
-	ControllerTemplate($scope,heroesFactory,'Hero', true);
+	ControllerTemplate($scope,heroesFactory,'Hero', true, filterFilter);
 	fademessage.setup($scope,$timeout);
 
 	function addPromiseInfo(promise,property){
@@ -27,27 +36,27 @@ app.controller('HeroesController', function ($scope,$timeout, heroesFactory,fade
 	addPromiseInfo(Heroextras.getApiInfo('/weapons'),'weapons');
 	addPromiseInfo(Heroextras.getApiInfo('/races'),'races');
 	addPromiseInfo(Heroextras.getApiInfo('/jobs'),'jobs');
-
-
 	
 });
 
-app.controller('JobsController', function($scope,$timeout,jobsFactory,fademessage){
+app.controller('JobsController', function($scope,$timeout,jobsFactory,fademessage, filterFilter){
 	
-	ControllerTemplate($scope,jobsFactory,'Job');
+	ControllerTemplate($scope,jobsFactory,'Job',false,filterFilter);
 	fademessage.setup($scope,$timeout);
 
+
+	
 });
 
-app.controller('RacesController', function($scope,$timeout,racesFactory,fademessage){
+app.controller('RacesController', function($scope,$timeout,racesFactory,fademessage, filterFilter){
 	
-	ControllerTemplate($scope,racesFactory,'Race');
+	ControllerTemplate($scope,racesFactory,'Race',false ,filterFilter);
 	fademessage.setup($scope,$timeout);
 });
 
-app.controller('WeaponsController', function($scope,$timeout,weaponsFactory,fademessage){
+app.controller('WeaponsController', function($scope,$timeout,weaponsFactory,fademessage,filterFilter){
 	
-	ControllerTemplate($scope,weaponsFactory,'Weapon');
+	ControllerTemplate($scope,weaponsFactory,'Weapon', false,filterFilter);
 	fademessage.setup($scope,$timeout);
 });
 
@@ -63,8 +72,25 @@ function ArraybyID(source){
 	return target;
 }
 
-//ControllerTemplate($scope,jobsFactory,fademessage,'Job');
-function ControllerTemplate(scope,Factory,name, hack){
+function Paginator($scope,colname,filterFilter) {
+	/* init pagination with $scope.list */
+	$scope.entryLimit = 5;
+	$scope.currentPage = 1; //current page
+    $scope.maxSize = 5; //pagination max size
+
+    /* init pagination with $scope.list */
+    $scope.noOfPages = Math.ceil($scope[colname].length/$scope.entryLimit);
+
+    $scope.$watch('search', function(term) {
+        // Create $scope.filtered and then calculat $scope.noOfPages, no racing!
+        $scope.filtered = filterFilter($scope[colname], term);
+        $scope.noOfPages = Math.ceil($scope.filtered.length/$scope.entryLimit);
+    });
+
+}
+
+
+function ControllerTemplate(scope,Factory,name, hack,filterFilter){
 	
 	//tokenizing property names
 	var plural= hack ? name+'es' : name+'s',
@@ -84,10 +110,18 @@ function ControllerTemplate(scope,Factory,name, hack){
 	scope[curritem];
 
 	scope[gets]=function() {
-		debugger;
 		Factory[gets]()
 		.success(function (records) {
+
 			scope[coll] = records;
+			debugger;
+			if(!scope.maxSize){
+				Paginator(scope,coll,filterFilter);
+			}
+			else{
+				scope.updatepager();
+			}	
+			
 		})
 		.error(function (error) {
 			scope.status = String.format('Unable to load {0} data: {1}',plural , error);
@@ -95,69 +129,84 @@ function ControllerTemplate(scope,Factory,name, hack){
 		});
 	};
 
-	scope[gets]();
+	if(filterFilter){
+		scope.updatepager=function(){
 
-	scope[insert]=function(){
+			scope.filtered = scope[coll];
+			scope.noOfPages = Math.ceil(scope.filtered.length/scope.entryLimit);
+			scope.search="";
 
-		Factory[insert](scope[newitem])
-		.success(function(){
-			scope.status=String.format('new {0} inserted succesfully',name);
-			scope[gets]();
-			scope[newitem]={};
+		}
+	}
+	else{
+		scope.updatepager= function(){return "";}
+	}
 
-		}).error(function(error) {
-			scope.status = String.format('Unable to insert {0}: {1}', name,error);
-		});
-	};
+scope[gets]();
 
-	scope[sdelete] = function (id) {
-		Factory[sdelete](id)
-		.success(function () {
-			scope.status = String.format('Deleted {0}! Refreshing {0} list.',plural);
-			for (var i = 0; i < scope[coll].length; i++) {
-				var cust = scope[coll][i];
-				if (cust.id === id) {
-					scope[coll].splice(i, 1);
-					break;
-				}
-			}
-		})
-		.error(function (error) {
-			scope.status =String.format('Unable to delete {0}: {1},',name, error);
-		});
-	};
+scope[insert]=function(){
 
-	scope[get] = function(id){
-		Factory[get](id)
-		.success(function(item){
-			scope[curritem]=item;
+	Factory[insert](scope[newitem])
+	.success(function(){
+		scope.status=String.format('new {0} inserted succesfully',name);
+		scope[gets]();
+		scope[newitem]={};
 
-		}).error(function(error){
-			scope.status = String.format('Unable to retrieve {0}: {1}',name, error);
-		});
-	};
+	}).error(function(error) {
+		scope.status = String.format('Unable to insert {0}: {1}', name,error);
+	});
+};
 
-	scope[update] = function (id) {
-		var aux;
-		for (var i = 0,y=scope[coll].length; i < y; i++) {
-			var aux2 = scope[coll][i];
-			if (aux2.id === id) {
-				aux = scope[curritem];
-				scope.updateindex=i;
+scope[sdelete] = function (id) {
+	Factory[sdelete](id)
+	.success(function () {
+		scope.status = String.format('Deleted {0}! Refreshing {0} list.',plural);
+		for (var i = 0; i < scope[coll].length; i++) {
+			var cust = scope[coll][i];
+			if (cust.id === id) {
+				scope[coll].splice(i, 1);
 				break;
 			}
 		}
+		scope.updatepager();
+	})
+	.error(function (error) {
+		scope.status =String.format('Unable to delete {0}: {1},',name, error);
+	});
+};
 
-		Factory[update](aux)
-		.success(function () {
-			scope[coll][scope.updateindex]=scope[curritem];
-			scope[curritem]={};
-			scope.status = String.format('Updated {0}! Refreshing {0} list.',name);
-		})
-		.error(function (error) {
-			scope.status = String.format('Unable to update {0}: {1}',name, error);
-		});
-	};
+scope[get] = function(id){
+	Factory[get](id)
+	.success(function(item){
+		scope[curritem]=item;
+
+	}).error(function(error){
+		scope.status = String.format('Unable to retrieve {0}: {1}',name, error);
+	});
+};
+
+scope[update] = function (id) {
+	var aux;
+	for (var i = 0,y=scope[coll].length; i < y; i++) {
+		var aux2 = scope[coll][i];
+		if (aux2.id === id) {
+			aux = scope[curritem];
+			scope.updateindex=i;
+			break;
+		}
+	}
+
+	Factory[update](aux)
+	.success(function () {
+		scope[coll][scope.updateindex]=scope[curritem];
+		scope[curritem]={};
+		scope.updatepager();
+		scope.status = String.format('Updated {0}! Refreshing {0} list.',name);
+	})
+	.error(function (error) {
+		scope.status = String.format('Unable to update {0}: {1}',name, error);
+	});
+};
 }
 
 String.format = function() {
