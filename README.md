@@ -10,6 +10,7 @@ You will nee a few things to run the proyect
 * 2- Grunt(http://gruntjs.com/) in order to run unit and e2e testing.
 * 3- NodeJS(http://nodejs.org/) to resolve grunt and karma dependencies.
 * 4- Git since bower uses this to lookup some packages.
+* 5- Ruby and the haml gem for templating.
 
 Setting up
 ===========
@@ -28,6 +29,11 @@ open a terminal on the repository directory and run
 * 3- 'grunt serve' 
 
   Note: it is reccomended to use along with my fork of the order of the pixel(https://github.com/OliDM/order-of-the-pixel)
+
+
+Templating
+==========
+The 4 main views "heroes", "weapons", "races" and "jobs" are created using its corresponding haml template localed in 'app/haml', these views are regenerated whenever the commands 'grunt serve' or 'grunt haml' are executed. To work with the views directly either modify the .haml file or  remove the 'haml' task on the grunt serve command or comment the haml task configuration for the file you wish to work on.
 
 Testing
 =======
