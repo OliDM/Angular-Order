@@ -1,4 +1,4 @@
-var app = angular.module('theorderApp', ['ngRoute']);
+var app = angular.module('theorderApp', ['ngRoute','ui.bootstrap']);
 
  app.apiURL="http://localhost:4567/api/v1"
 app.config(function($routeProvider){
@@ -8,6 +8,9 @@ $routeProvider
 
 .when('/jobs',
  {templateUrl: 'views/jobs.html', controller:'JobsController' })
+
+.when('/jobs2',
+ {templateUrl: 'views/jobs2.html', controller:'JobsController' })
 
 .when('/index',
  {redirectTo:'/'})
