@@ -1,0 +1,75 @@
+.weapons.view
+  .container
+    #msg.alert.animated-msg.alert-info{"ng-show" => "status"} {{status}}
+    #modalwindows
+      / Create Modal
+      #myModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", role: "dialog", tabindex: "-1"}
+        .modal-dialog
+          .modal-content
+            .modal-header
+              %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", type: "button"} ×
+              %h4#myModalLabel.modal-title Add a new Weapon
+            .modal-body
+              .span3
+                %br/
+                %label{for: "weaponName"} Weapon Name
+                %input#weaponName.form-control{"data-ng-model" => "newWeapon.name", placeholder: "enter Weapon Name", type: "text"}/
+                %br/
+                %label{for: "wepdesc"} Description
+                %textarea.span6.form-control{"ng-model" => "newWeapon.desc", placeholder: "Tell us all about what this bad boy can do", required: "", rows: "3"}
+                %br/
+            .modal-footer
+              %button.btn.btn-default{"data-dismiss" => "modal", type: "button"} Close
+              %button.btn.btn-primary{"data-dismiss" => "modal", "data-ng-click" => "insertWeapon()", "data-ng-disabled" => "!newWeapon.name", type: "button"} Save changes
+          / /.modal-content
+        / /.modal-dialog
+      / /.modal
+      / Create Modal
+      #editModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", role: "dialog", tabindex: "-1"}
+        .modal-dialog
+          .modal-content
+            .modal-header
+              %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", type: "button"} ×
+              %h4#myModalLabel.modal-title Weapon Edit
+            .modal-body
+              .span3
+                %br/
+                %label{for: "weaponName"} Weapon Name
+                %input#weaponName.form-control{"data-ng-model" => "currWeapon.name", placeholder: "enter Weapon Name", type: "text"}/
+                %br/
+                %label{for: "wepdesc"} Description
+                %textarea.span6.form-control{"ng-model" => "currWeapon.desc", placeholder: "Tell us all about what this bad boy can do", required: "", rows: "3"}
+                %br/
+            .modal-footer
+              %button.btn.btn-default{"data-dismiss" => "modal", type: "button"} Close
+              %button.btn.btn-primary{"data-dismiss" => "modal", "data-ng-click" => "updateWeapon(currWeapon.id)", "data-ng-disabled" => "!currWeapon.name", type: "button"} Save changes
+          / /.modal-content
+        / /.modal-dialog
+      / /.modal
+    .filters
+      %button.btn.btn-primary.btn-lg.pull-right{"data-target" => "#myModal", "data-toggle" => "modal"}
+        Create a Weapon
+      %label{for: "srcbox"} Search:
+      %input#srcbox.form-control{"ng-model" => "search", type: "text"}/
+    .panel.panel-default
+      / Default panel contents
+      .panel-heading List of available arms
+      %table.table.table-bordered.table-hover
+        %thead
+          %tr
+            %td
+              %label #
+            %td
+              %label Name
+            %td
+              %label Descripcion
+            %td
+              %label Action
+        %tbody
+          %tr{"ng-repeat" => "item in weapons |filter:search"}
+            %td {{item.id}}
+            %td {{item.name}}
+            %td {{item.desc}}
+            %td.action-col-fix
+              %button.btn.btn-primary{"data-target" => "#editModal", "data-toggle" => "modal", "ng-click" => "getWeapon(item.id)", type: "button"} update
+              %button.btn.btn-danger{"ng-click" => "deleteWeapon(item.id)", type: "button"} Delete

@@ -1,0 +1,91 @@
+.heroes.view
+  #msg.alert.animated-msg.alert-info{"ng-show" => "status"} {{status}}
+  .container
+    #modalwindows
+      / Add Modal
+      #myModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", role: "dialog", tabindex: "-1"}
+        .modal-dialog
+          .modal-content
+            .modal-header
+              %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", type: "button"} ×
+              %h4#myModalLabel.modal-title Add a new Hero
+            .modal-body
+              .span3
+                %br/
+                %label{for: "Heroname"} Hero Name
+                %input#Heroname.form-control{"data-ng-model" => "newHero.name", placeholder: "Name", type: "text"}/
+                %label{for: "selrace"} Select a Race:
+                %div{"ng-controller" => "RacesController"}
+                  %select#selrace.form-control{"ng-model" => "newHero.race_id", "ng-options" => "obj.id  as obj.name for obj in races"}
+                %label{for: "seljob"} Select a profesion:
+                %div{"ng-controller" => "JobsController"}
+                  %select#seljob.form-control{"ng-model" => "newHero.job_id", "ng-options" => "obj.id  as obj.name for obj in jobs"}
+                %label{for: "selwep"} Select a Weapon
+                %div{"ng-controller" => "WeaponsController"}
+                  %select#selwep.form-control{"ng-model" => "newHero.weapon_id", "ng-options" => "obj.id  as obj.name for obj in weapons"}
+            .modal-footer
+              %button.btn.btn-default{"data-dismiss" => "modal", type: "button"} Close
+              %button.btn.btn-primary{"data-dismiss" => "modal", "data-ng-click" => "insertHero()", "data-ng-disabled" => "!newHero.name", type: "button"} Save
+          / /.modal-content
+        / /.modal-dialog
+      / /.modal
+      / Edit Modal
+      #editModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", role: "dialog", tabindex: "-1"}
+        .modal-dialog
+          .modal-content
+            .modal-header
+              %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", type: "button"} ×
+              %h4#myModalLabel.modal-title Update your Hero
+            .modal-body
+              .span3
+                %br/
+                %label{for: "Heroname"} Hero Name
+                %input#Heroname.form-control{"data-ng-model" => "currHero.name", placeholder: "Name", type: "text"}/
+                %label{for: "selrace"} Select a Race:
+                %div{"ng-controller" => "RacesController"}
+                  %select#selrace.form-control{"ng-model" => "currHero.race_id", "ng-options" => "obj.id  as obj.name for obj in races"}
+                %label{for: "seljob"} Select a profesion:
+                %div{"ng-controller" => "JobsController"}
+                  %select#seljob.form-control{"ng-model" => "currHero.job_id", "ng-options" => "obj.id  as obj.name for obj in jobs"}
+                %label{for: "selwep"} Select a Weapon
+                %div{"ng-controller" => "WeaponsController"}
+                  %select#selwep.form-control{"ng-model" => "currHero.weapon_id", "ng-options" => "obj.id  as obj.name for obj in weapons"}
+            .modal-footer
+              %button.btn.btn-default{"data-dismiss" => "modal", type: "button"} Close
+              %button.btn.btn-primary{"data-dismiss" => "modal", "data-ng-click" => "updateHero(currHero.id)", "data-ng-disabled" => "!currHero.name", type: "button"} Save
+          / /.modal-content
+        / /.modal-dialog
+      / /.modal
+    .filters
+      %button.btn.btn-primary.btn-lg.pull-right{"data-target" => "#myModal", "data-toggle" => "modal"}
+        Create a Hero
+      %label{for: "srcbox"} Search:
+      %input#srcbox.form-control{"ng-model" => "search", type: "text"}/
+    .panel.panel-default
+      / Default panel contents
+      .panel-heading List of current active heroes
+      %table.table.table-bordered.table-hover
+        %thead
+          %tr
+            %td
+              %label #
+            %td
+              %label Name
+            %td
+              %label Weapon
+            %td
+              %label Race
+            %td
+              %label job
+            %td
+              %label action
+        %tbody
+          %tr{"ng-repeat" => "item in heroes |filter:search"}
+            %td {{item.id}}
+            %td {{item.name}}
+            %td {{weapons[item.weapon_id].name}}
+            %td {{races[item.race_id].name}}
+            %td {{jobs[item.job_id].name}}
+            %td
+              %button.btn.btn-primary{"data-target" => "#editModal", "data-toggle" => "modal", "ng-click" => "getHero(item.id)", type: "button"} update
+              %button.btn.btn-danger{"ng-click" => "deleteHero(item.id)", type: "button"} Delete

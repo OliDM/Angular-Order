@@ -16,6 +16,19 @@ module.exports = function (grunt) {
 
   // Define the configuration for all the tasks
   grunt.initConfig({
+      haml: {                              // Task
+    dev: {                             // Another target
+      options: {                       // Target options
+        style: 'expanded'
+      },
+      files: {
+        'app/views/jobs.html': 'app/haml/jobs.haml',
+        'app/views/weapons.html': 'app/haml/weapons.haml',
+        'app/views/heroes.html': 'app/haml/heroes.haml',
+        'app/views/races.html': 'app/haml/races.haml'
+      }
+    }
+  },
 
     // Project settings
     yeoman: {
@@ -77,8 +90,8 @@ livereload: {
       testserver: {
         options: {
           port: 9999,
-           base:'app/',
-           livereload:false
+          base:'app/',
+          livereload:false
         }
       },
       test: {
@@ -340,10 +353,11 @@ htmlmin: {
 
 grunt.registerTask('serve', function (target) {
   if (target === 'dist') {
-    return grunt.task.run(['build', 'connect:dist:keepalive']);
+    return grunt.task.run(['haml','build', 'connect:dist:keepalive']);
   }
 
   grunt.task.run([
+    'haml',
     'clean:server',
     'bower-install',
     'concurrent:server',

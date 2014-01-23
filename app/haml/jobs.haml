@@ -1,0 +1,62 @@
+%div
+  .container
+    #msg.alert.animated-msg.alert-info{"ng-show" => "status"} {{status}}
+    #modalwindows
+      / Create Modal
+      #myModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", role: "dialog", tabindex: "-1"}
+        .modal-dialog
+          .modal-content
+            .modal-header
+              %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", type: "button"} ×
+              %h4#myModalLabel.modal-title Add a new Job
+            .modal-body
+              .span3
+                %br/
+                %label{for: "Jobname"} Job Name
+                %input#Jobname.form-control{"data-ng-model" => "newJob.name", placeholder: "enter Job Name", type: "text"}/
+            .modal-footer
+              %button.btn.btn-default{"data-dismiss" => "modal", type: "button"} Close
+              %button.btn.btn-primary{"data-dismiss" => "modal", "data-ng-click" => "insertJob()", "data-ng-disabled" => "!newJob.name", type: "button"} Save
+          / /.modal-content
+        / /.modal-dialog
+      / /.modal
+      / Edit Modal
+      #editModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", role: "dialog", tabindex: "-1"}
+        .modal-dialog
+          .modal-content
+            .modal-header
+              %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", type: "button"} ×
+              %h4#myModalLabel.modal-title Job editing
+            .modal-body
+              .span3
+                %br/
+                %label{for: "editJobname"} Job Name
+                %input#editJobname.form-control{"data-ng-model" => "currJob.name", placeholder: "enter Job Name", type: "text"}/
+            .modal-footer
+              %button.btn.btn-default{"data-dismiss" => "modal", type: "button"} Close
+              %button.btn.btn-primary{"data-dismiss" => "modal", "data-ng-click" => "updateJob(currJob.id)", "data-ng-disabled" => "!currJob.name", type: "button"} Save changes
+          / /.modal-content
+        / /.modal-dialog
+      / /.modal
+    .filters
+      %button.btn.btn-primary.btn-lg.pull-right{"data-target" => "#myModal", "data-toggle" => "modal"} Create a Job
+      %label{for: "srcbox"} Search:
+      %input#srcbox.form-control{"ng-model" => "search", type: "text"}/
+    .panel.panel-default
+      .panel-heading List of available profesions
+      %table.table.table-bordered.table-hover
+        %thead
+          %tr
+            %td
+              %label{for: ""} #
+            %td
+              %label{for: ""} Name
+            %td
+              %label{for: ""} Action
+        %tbody
+          %tr{"ng-repeat" => "item in jobs |filter:search"}
+            %td {{item.id}}
+            %td {{item.name}}
+            %td
+              %button.btn.btn-primary{"data-target" => "#editModal", "data-toggle" => "modal", "ng-click" => "getJob(item.id)", type: "button"} update
+              %button.btn.btn-danger{"ng-click" => "deleteJob(item.id)", type: "button"} Delete
