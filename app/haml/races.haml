@@ -1,6 +1,6 @@
 %div
+  #msg.alert.animated-msg.alert-info{"ng-show" => "status"} {{status}}
   .container
-    #msg.alert.animated-msg.alert-info{"ng-show" => "status"} {{status}}
     / Button trigger modal
     #modalwindows
       / Create Modal
@@ -57,9 +57,10 @@
             %td
               %label Action
         %tbody
-          %tr{"ng-repeat" => "item in races |filter:search"}
+          %tr{"ng-repeat" => "item in filtered | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit"}
             %td {{item.id}}
             %td {{item.name}}
             %td
               %button.btn.btn-primary{"data-target" => "#editModal", "data-toggle" => "modal", "ng-click" => "getRace(item.id)", type: "button"} update
               %button.btn.btn-danger{"ng-click" => "deleteRace(item.id)", type: "button"} Delete
+  %pagination.pagination-small{"data-boundary-links" => "true", "data-current-page" => "currentPage", "data-next-text" => "»", "data-num-pages" => "noOfPages", "data-previous-text" => "«", "max-size" => "maxSize"}

@@ -54,9 +54,10 @@
             %td
               %label{for: ""} Action
         %tbody
-          %tr{"ng-repeat" => "item in jobs |filter:search"}
+          %tr{"ng-repeat" => "item in filtered | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit"}
             %td {{item.id}}
             %td {{item.name}}
             %td
               %button.btn.btn-primary{"data-target" => "#editModal", "data-toggle" => "modal", "ng-click" => "getJob(item.id)", type: "button"} update
               %button.btn.btn-danger{"ng-click" => "deleteJob(item.id)", type: "button"} Delete
+    %pagination.pagination-small{"data-boundary-links" => "true", "data-current-page" => "currentPage", "data-next-text" => "»", "data-num-pages" => "noOfPages", "data-previous-text" => "«", "max-size" => "maxSize"}

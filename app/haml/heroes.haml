@@ -76,11 +76,11 @@
             %td
               %label Race
             %td
-              %label job
+              %label Job
             %td
-              %label action
+              %label Action
         %tbody
-          %tr{"ng-repeat" => "item in heroes |filter:search"}
+          %tr{"ng-repeat" => "item in filtered | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit"}
             %td {{item.id}}
             %td {{item.name}}
             %td {{weapons[item.weapon_id].name}}
@@ -89,3 +89,4 @@
             %td
               %button.btn.btn-primary{"data-target" => "#editModal", "data-toggle" => "modal", "ng-click" => "getHero(item.id)", type: "button"} update
               %button.btn.btn-danger{"ng-click" => "deleteHero(item.id)", type: "button"} Delete
+  %pagination.pagination-small{"data-boundary-links" => "true", "data-current-page" => "currentPage", "data-next-text" => "»", "data-num-pages" => "noOfPages", "data-previous-text" => "«", "max-size" => "maxSize"}
